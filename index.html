@@ -6,7 +6,6 @@
 <title>Social Circle Basketball 2026-27</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
-/* Layout: one column, sticky team tabs, schedule table per team. Gym scoreboard red on warm paper. */
 :root {
   --bg: #f7f4ef; --surface: #ffffff; --fg: #1d1a17; --muted: #6b645c; --line: #e2dcd3;
   --accent: #a3121e; --accent-fg: #ffffff; --home: #fbeeea; --tabbg: #eee9e2;
@@ -40,6 +39,9 @@ header p { margin: 0; color: var(--muted); max-width: 62ch; }
 .btn { display: inline-block; text-decoration: none; font-family: var(--display); font-weight: 800; font-size: 22px; text-transform: uppercase; letter-spacing: .04em;
   padding: 12px 20px; border-radius: 6px; text-align: center; }
 .btn.primary { background: var(--accent); color: var(--accent-fg); }
+.btnrow { display: flex; flex-wrap: wrap; gap: 10px; }
+.btnrow .btn { flex: 1 1 220px; font-size: 20px; }
+.hint a { color: var(--accent); }
 .btn.secondary { background: transparent; color: var(--fg); border: 2px solid var(--line); font-size: 18px; }
 .hint { margin: 0; color: var(--muted); font-size: 14px; }
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
@@ -68,19 +70,21 @@ footer a { color: var(--accent); }
 </style>
 </head>
 <body>
-
 <div class="wrap">
 <header>
   <div class="eyebrow">Social Circle High School Redskins</div>
   <h1>Basketball 2026&ndash;27 Schedule</h1>
-  <p>Pick your team, tap the red button, and every game lands on your phone's calendar with the gym address and a 2-hour reminder. Home games are at <b>154 Alcova Dr, Social Circle, GA 30025</b>.</p>
+  <p>Pick your team, tap the button for your phone, and every game lands on your calendar with the gym address and a 2-hour reminder. Home games are at <b>154 Alcova Dr, Social Circle, GA 30025</b>.</p>
 </header>
 <nav class="tabs" role="tablist"><a class="tab" href="#varsity-girls" data-team="VG" role="tab">Varsity Girls<small>26 games</small></a><a class="tab" href="#varsity-boys" data-team="VB" role="tab">Varsity Boys<small>25 games</small></a><a class="tab" href="#jv-boys" data-team="JV" role="tab">JV Boys<small>11 games</small></a></nav>
 
 <section class="panel" id="panel-varsity-girls" data-team="VG" hidden>
   <div class="cta">
-    <a class="btn primary" href="social-circle-basketball-varsity-girls.ics" rel="noopener">Add Varsity Girls to my calendar</a>
-    <p class="hint">On iPhone tap the button, then <b>Add All</b>. Android phones can't open calendar files directly: see the Android steps below. Every game gets a reminder 2 hours before tip-off.</p>
+    <div class="btnrow">
+      <a class="btn primary" href="https://calendar.google.com/calendar/render?cid=webcal%3A%2F%2Fkab-studios.github.io%2Fsc-basketball%2Fsocial-circle-basketball-varsity-girls.ics" rel="noopener">Android / Google Calendar</a>
+      <a class="btn primary" href="social-circle-basketball-varsity-girls.ics" rel="noopener">iPhone / Apple Calendar</a>
+    </div>
+    <p class="hint"><b>Android:</b> tap the Google button, then <b>Add</b>. The Varsity Girls calendar shows up in your Google Calendar app and updates itself if the schedule changes. <b>iPhone:</b> tap the Apple button, then <b>Add All</b>. Outlook users: download the <a href="social-circle-basketball-varsity-girls.ics">.ics file</a>. Every game has the gym address and a 2-hour reminder.</p>
   </div>
   <div class="tablewrap">
   <table>
@@ -120,8 +124,11 @@ footer a { color: var(--accent); }
 </section>
 <section class="panel" id="panel-varsity-boys" data-team="VB" hidden>
   <div class="cta">
-    <a class="btn primary" href="social-circle-basketball-varsity-boys.ics" rel="noopener">Add Varsity Boys to my calendar</a>
-    <p class="hint">On iPhone tap the button, then <b>Add All</b>. Android phones can't open calendar files directly: see the Android steps below. Every game gets a reminder 2 hours before tip-off.</p>
+    <div class="btnrow">
+      <a class="btn primary" href="https://calendar.google.com/calendar/render?cid=webcal%3A%2F%2Fkab-studios.github.io%2Fsc-basketball%2Fsocial-circle-basketball-varsity-boys.ics" rel="noopener">Android / Google Calendar</a>
+      <a class="btn primary" href="social-circle-basketball-varsity-boys.ics" rel="noopener">iPhone / Apple Calendar</a>
+    </div>
+    <p class="hint"><b>Android:</b> tap the Google button, then <b>Add</b>. The Varsity Boys calendar shows up in your Google Calendar app and updates itself if the schedule changes. <b>iPhone:</b> tap the Apple button, then <b>Add All</b>. Outlook users: download the <a href="social-circle-basketball-varsity-boys.ics">.ics file</a>. Every game has the gym address and a 2-hour reminder.</p>
   </div>
   <div class="tablewrap">
   <table>
@@ -160,8 +167,11 @@ footer a { color: var(--accent); }
 </section>
 <section class="panel" id="panel-jv-boys" data-team="JV" hidden>
   <div class="cta">
-    <a class="btn primary" href="social-circle-basketball-jv-boys.ics" rel="noopener">Add JV Boys to my calendar</a>
-    <p class="hint">On iPhone tap the button, then <b>Add All</b>. Android phones can't open calendar files directly: see the Android steps below. Every game gets a reminder 2 hours before tip-off.</p>
+    <div class="btnrow">
+      <a class="btn primary" href="https://calendar.google.com/calendar/render?cid=webcal%3A%2F%2Fkab-studios.github.io%2Fsc-basketball%2Fsocial-circle-basketball-jv-boys.ics" rel="noopener">Android / Google Calendar</a>
+      <a class="btn primary" href="social-circle-basketball-jv-boys.ics" rel="noopener">iPhone / Apple Calendar</a>
+    </div>
+    <p class="hint"><b>Android:</b> tap the Google button, then <b>Add</b>. The JV Boys calendar shows up in your Google Calendar app and updates itself if the schedule changes. <b>iPhone:</b> tap the Apple button, then <b>Add All</b>. Outlook users: download the <a href="social-circle-basketball-jv-boys.ics">.ics file</a>. Every game has the gym address and a 2-hour reminder.</p>
   </div>
   <div class="tablewrap">
   <table>
@@ -186,9 +196,9 @@ footer a { color: var(--accent); }
 </section>
 <p class="legend"><span class="sw"></span> Shaded rows are home games. <b>Region</b> marks region games (the * on the printed schedule). Times are Eastern. Schedule as updated 10/26/26 - times can change, so check with the coach before a long drive.</p>
 <div class="howto">
-  <div><h3>iPhone</h3><ol><li>Tap the red button above.</li><li>Safari shows the games. Tap <b>Add All</b>.</li><li>Pick which calendar to put them on. Done.</li></ol></div>
-  <div><h3>Android / Google Calendar</h3><ol><li>Android can't open .ics files on the phone, so use a computer (or Chrome in desktop mode).</li><li>Download the file from the red button, then go to calendar.google.com &rarr; gear &rarr; Settings &rarr; Import &amp; export &rarr; Import.</li><li>Pick the file and the games sync to your phone's Google Calendar app.</li></ol></div>
-  <div><h3>Outlook or other</h3><ol><li>Download the .ics file.</li><li>In Outlook: File &rarr; Open &amp; Export &rarr; Import/Export &rarr; Import an iCalendar file.</li></ol><p>&nbsp;</p><a class="btn secondary" href="https://drive.google.com/drive/folders/1RO3mnXZJ7BHkTCaMes7qfeMojQwfxTAe" rel="noopener">All calendar files (Google Drive)</a></div>
+  <div><h3>Android / Google Calendar</h3><ol><li>Tap the <b>Android / Google Calendar</b> button for your team.</li><li>Google asks "Add this calendar?" Tap <b>Add</b>.</li><li>Open the Google Calendar app. If you don't see the games, tap the menu and make sure the "SC Redskins" calendar is checked.</li></ol></div>
+  <div><h3>iPhone</h3><ol><li>Tap the <b>iPhone / Apple Calendar</b> button for your team.</li><li>Safari shows the games. Tap <b>Add All</b>.</li><li>Pick which calendar to put them on. Done.</li></ol><p>Use Google Calendar on your iPhone? Use the Android button instead.</p></div>
+  <div><h3>Outlook or computer</h3><ol><li>Download the .ics file (link under the buttons).</li><li>Outlook: File &rarr; Open &amp; Export &rarr; Import/Export &rarr; Import an iCalendar file.</li><li>Google on a computer: calendar.google.com &rarr; Settings &rarr; Import.</li></ol><p>&nbsp;</p><a class="btn secondary" href="https://drive.google.com/drive/folders/1RO3mnXZJ7BHkTCaMes7qfeMojQwfxTAe" rel="noopener">All calendar files (Google Drive)</a></div>
 </div>
 <footer>Questions about the schedule go to the coaching staff. This page is maintained by a team parent; it is not an official school site.</footer>
 </div>
@@ -211,6 +221,5 @@ footer a { color: var(--accent); }
   show();
 })();
 </script>
-
 </body>
 </html>
