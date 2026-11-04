@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Social Circle Basketball 2026-27</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: one column, sticky team tabs, schedule table per team. Gym scoreboard red on warm paper. */
+:root {
+  --bg: #f7f4ef; --surface: #ffffff; --fg: #1d1a17; --muted: #6b645c; --line: #e2dcd3;
+  --accent: #a3121e; --accent-fg: #ffffff; --home: #fbeeea; --tabbg: #eee9e2;
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15130f; --surface: #1f1c17; --fg: #f1ece4; --muted: #a79e92; --line: #363028;
+  --accent: #e0414c; --accent-fg: #15130f; --home: #2a1c1b; --tabbg: #262219; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --bg: #15130f; --surface: #1f1c17; --fg: #f1ece4; --muted: #a79e92; --line: #363028;
+  --accent: #e0414c; --accent-fg: #15130f; --home: #2a1c1b; --tabbg: #262219; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 48px; }
+.wrap { max-width: 960px; margin: 0 auto; }
+header { padding-block: 28px 16px; border-bottom: 3px solid var(--accent); }
+.eyebrow { font-family: var(--display); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-size: 15px; }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(36px, 7vw, 60px); line-height: .95; margin: 4px 0 8px; text-wrap: balance; text-transform: uppercase; }
+header p { margin: 0; color: var(--muted); max-width: 62ch; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 12px; z-index: 5; }
+.tab { flex: 1 1 140px; text-decoration: none; color: var(--fg); background: var(--tabbg); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px;
+  font-family: var(--display); font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: .03em; display: flex; flex-direction: column; min-width: 0; }
+.tab small { font-family: var(--body); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--muted); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.tab[aria-selected="true"] small { color: var(--accent-fg); opacity: .85; }
+.tab:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.cta { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; margin-block: 8px 18px; display: flex; flex-direction: column; gap: 10px; }
+.btn { display: inline-block; text-decoration: none; font-family: var(--display); font-weight: 800; font-size: 22px; text-transform: uppercase; letter-spacing: .04em;
+  padding: 12px 20px; border-radius: 6px; text-align: center; }
+.btn.primary { background: var(--accent); color: var(--accent-fg); }
+.btn.secondary { background: transparent; color: var(--fg); border: 2px solid var(--line); font-size: 18px; }
+.hint { margin: 0; color: var(--muted); font-size: 14px; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 15px; }
+th { text-align: left; font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; color: var(--muted); padding: 10px 12px; border-bottom: 2px solid var(--line); }
+td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.d, td.t { white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.d { font-weight: 600; }
+td.o { font-weight: 600; }
+td.h { white-space: nowrap; }
+td.l { color: var(--muted); }
+tr.home td.h { color: var(--accent); font-weight: 600; }
+tr.home { background: var(--home); }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); border: 1px solid currentColor; border-radius: 3px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
+.howto { margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.howto > div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; min-width: 0; }
+.howto h3 { font-family: var(--display); font-size: 22px; text-transform: uppercase; margin: 0 0 6px; }
+.howto p, .howto li { margin: 0; font-size: 15px; }
+.howto ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.legend { margin-top: 20px; color: var(--muted); font-size: 14px; }
+.legend span.sw { display: inline-block; width: 14px; height: 14px; background: var(--home); border: 1px solid var(--line); vertical-align: -2px; margin-right: 4px; }
+footer { margin-top: 28px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 12px; }
+footer a { color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) { .tab { transition: background .15s; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Social Circle High School Redskins</div>
+  <h1>Basketball 2026&ndash;27 Schedule</h1>
+  <p>Pick your team, tap the red button, and every game lands on your phone's calendar with the gym address and a 2-hour reminder. Home games are at <b>154 Alcova Dr, Social Circle, GA 30025</b>.</p>
+</header>
+<nav class="tabs" role="tablist"><a class="tab" href="#varsity-girls" data-team="VG" role="tab">Varsity Girls<small>26 games</small></a><a class="tab" href="#varsity-boys" data-team="VB" role="tab">Varsity Boys<small>25 games</small></a><a class="tab" href="#jv-boys" data-team="JV" role="tab">JV Boys<small>11 games</small></a></nav>
+
+<section class="panel" id="panel-varsity-girls" data-team="VG" hidden>
+  <div class="cta">
+    <a class="btn primary" href="social-circle-basketball-varsity-girls.ics" rel="noopener">Add Varsity Girls to my calendar</a>
+    <p class="hint">On iPhone tap the button, then <b>Add All</b>. Android phones can't open calendar files directly: see the Android steps below. Every game gets a reminder 2 hours before tip-off.</p>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Date</th><th>Time</th><th>Opponent</th><th>Home / Away</th><th>Location</th></tr></thead>
+    <tbody>
+<tr class="away"><td class="d">Wed, Nov 4</td><td class="t">6:00 PM</td><td class="o">@ Mundy&#x27;s Mill<span class="tag">Scrimmage</span></td><td class="h">Away</td><td class="l">9652 Fayetteville Rd, Jonesboro, GA 30238</td></tr>
+<tr class="home"><td class="d">Tue, Nov 10</td><td class="t">6:00 PM</td><td class="o">vs Winder Barrow</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Tue, Nov 17</td><td class="t">6:00 PM</td><td class="o">vs Lanier Christian</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Thu, Nov 19</td><td class="t">6:00 PM</td><td class="o">vs MLK</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Mon, Nov 23</td><td class="t">11:00 AM</td><td class="o">vs Mary Persons</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Sat, Nov 28</td><td class="t">12:30 PM</td><td class="o">vs East Jackson<span class="tag">Girls only</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Thu, Dec 3</td><td class="t">5:30 PM</td><td class="o">@ Jackson</td><td class="h">Away</td><td class="l">717 S Harkness St, Jackson, GA 30233</td></tr>
+<tr class="home"><td class="d">Fri, Dec 4</td><td class="t">6:00 PM</td><td class="o">vs Walnut Grove</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Tue, Dec 8</td><td class="t">6:00 PM</td><td class="o">@ Hebron Christian</td><td class="h">Away</td><td class="l">775 Dacula Rd, Dacula, GA 30019</td></tr>
+<tr class="away"><td class="d">Sat, Dec 12</td><td class="t">4:30 PM</td><td class="o">@ Loganville</td><td class="h">Away</td><td class="l">100 Trident Trail, Loganville, GA 30052</td></tr>
+<tr class="away"><td class="d">Tue, Dec 15</td><td class="t">6:00 PM</td><td class="o">@ Monroe Area</td><td class="h">Away</td><td class="l">300 Double Springs Church Rd SW, Monroe, GA 30656</td></tr>
+<tr class="home"><td class="d">Tue, Jan 5</td><td class="t">6:00 PM</td><td class="o">vs Glenn Hills<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Thu, Jan 7</td><td class="t">6:00 PM</td><td class="o">@ Mary Persons</td><td class="h">Away</td><td class="l">300 Montpelier Avenue, Forsyth, GA 31029</td></tr>
+<tr class="away"><td class="d">Sat, Jan 9</td><td class="t">3:00 PM</td><td class="o">@ Lanier Christian</td><td class="h">Away</td><td class="l">5285 Strickland Rd, Flowery Branch, GA</td></tr>
+<tr class="home"><td class="d">Tue, Jan 12</td><td class="t">6:00 PM</td><td class="o">vs Josey<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Fri, Jan 15</td><td class="t">6:00 PM</td><td class="o">vs Jasper Co<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Sat, Jan 16</td><td class="t">12:30 PM</td><td class="o">vs Drew Charter<span class="tag">Girls only</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Tue, Jan 19</td><td class="t">6:00 PM</td><td class="o">vs Putnam<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Thu, Jan 21</td><td class="t">6:00 PM</td><td class="o">vs Jefferson Co<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Tue, Jan 26</td><td class="t">6:00 PM</td><td class="o">@ Laney<span class="tag">Region</span></td><td class="h">Away</td><td class="l">1339 Laney Walker Blvd, Augusta, GA 30901</td></tr>
+<tr class="away"><td class="d">Fri, Jan 29</td><td class="t">6:00 PM</td><td class="o">@ Glenn Hills<span class="tag">Region</span></td><td class="h">Away</td><td class="l">2840 Glenn Hills Dr, Augusta, GA 30906</td></tr>
+<tr class="home"><td class="d">Sat, Jan 30</td><td class="t">3:00 PM</td><td class="o">vs Laney<span class="tag">Region</span><span class="tag">Senior Night</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Fri, Feb 5</td><td class="t">6:00 PM</td><td class="o">@ Josey<span class="tag">Region</span></td><td class="h">Away</td><td class="l">1701 15th St, Augusta, GA 30901</td></tr>
+<tr class="away"><td class="d">Tue, Feb 9</td><td class="t">6:00 PM</td><td class="o">@ Jasper Co<span class="tag">Region</span></td><td class="h">Away</td><td class="l">14477 GA-11, Monticello, GA 31064</td></tr>
+<tr class="away"><td class="d">Fri, Feb 12</td><td class="t">6:00 PM</td><td class="o">@ Putnam<span class="tag">Region</span></td><td class="h">Away</td><td class="l">300 War Eagle Dr, Eatonton, GA 31024</td></tr>
+<tr class="away"><td class="d">Sat, Feb 13</td><td class="t">4:00 PM</td><td class="o">@ Jefferson Co<span class="tag">Region</span></td><td class="h">Away</td><td class="l">1157 Warrior Trail, Louisville, GA 30434</td></tr>
+<tr class="tbd"><td class="d">Tue, Feb 16</td><td class="t">TBD</td><td class="o">Region Tournament Semifinals</td><td class="h"></td><td class="l">Time and location TBD</td></tr>
+<tr class="tbd"><td class="d">Fri, Feb 19</td><td class="t">TBD</td><td class="o">Region Tournament Finals</td><td class="h"></td><td class="l">Time and location TBD</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+<section class="panel" id="panel-varsity-boys" data-team="VB" hidden>
+  <div class="cta">
+    <a class="btn primary" href="social-circle-basketball-varsity-boys.ics" rel="noopener">Add Varsity Boys to my calendar</a>
+    <p class="hint">On iPhone tap the button, then <b>Add All</b>. Android phones can't open calendar files directly: see the Android steps below. Every game gets a reminder 2 hours before tip-off.</p>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Date</th><th>Time</th><th>Opponent</th><th>Home / Away</th><th>Location</th></tr></thead>
+    <tbody>
+<tr class="away"><td class="d">Wed, Nov 4</td><td class="t">7:30 PM</td><td class="o">@ Mundy&#x27;s Mill<span class="tag">Scrimmage</span></td><td class="h">Away</td><td class="l">9652 Fayetteville Rd, Jonesboro, GA 30238</td></tr>
+<tr class="home"><td class="d">Tue, Nov 10</td><td class="t">7:30 PM</td><td class="o">vs Winder Barrow</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Tue, Nov 17</td><td class="t">7:30 PM</td><td class="o">vs Lanier Christian</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Thu, Nov 19</td><td class="t">7:30 PM</td><td class="o">vs MLK</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Mon, Nov 23</td><td class="t">12:30 PM</td><td class="o">vs Mary Persons</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Thu, Dec 3</td><td class="t">7:00 PM</td><td class="o">@ Jackson</td><td class="h">Away</td><td class="l">717 S Harkness St, Jackson, GA 30233</td></tr>
+<tr class="home"><td class="d">Fri, Dec 4</td><td class="t">7:30 PM</td><td class="o">vs Walnut Grove</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Tue, Dec 8</td><td class="t">7:30 PM</td><td class="o">@ Hebron Christian</td><td class="h">Away</td><td class="l">775 Dacula Rd, Dacula, GA 30019</td></tr>
+<tr class="away"><td class="d">Sat, Dec 12</td><td class="t">6:00 PM</td><td class="o">@ Loganville</td><td class="h">Away</td><td class="l">100 Trident Trail, Loganville, GA 30052</td></tr>
+<tr class="away"><td class="d">Tue, Dec 15</td><td class="t">7:30 PM</td><td class="o">@ Monroe Area</td><td class="h">Away</td><td class="l">300 Double Springs Church Rd SW, Monroe, GA 30656</td></tr>
+<tr class="home"><td class="d">Tue, Jan 5</td><td class="t">7:30 PM</td><td class="o">vs Glenn Hills<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Thu, Jan 7</td><td class="t">7:30 PM</td><td class="o">@ Mary Persons</td><td class="h">Away</td><td class="l">300 Montpelier Avenue, Forsyth, GA 31029</td></tr>
+<tr class="away"><td class="d">Sat, Jan 9</td><td class="t">4:30 PM</td><td class="o">@ Lanier Christian</td><td class="h">Away</td><td class="l">5285 Strickland Rd, Flowery Branch, GA</td></tr>
+<tr class="home"><td class="d">Tue, Jan 12</td><td class="t">7:30 PM</td><td class="o">vs Josey<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Fri, Jan 15</td><td class="t">7:30 PM</td><td class="o">vs Jasper Co<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Sat, Jan 16</td><td class="t">2:00 PM</td><td class="o">@ Heritage<span class="tag">Boys only</span></td><td class="h">Away</td><td class="l">2400 Granade Rd SW, Conyers, GA 30094</td></tr>
+<tr class="home"><td class="d">Tue, Jan 19</td><td class="t">7:30 PM</td><td class="o">vs Putnam<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Thu, Jan 21</td><td class="t">7:30 PM</td><td class="o">vs Jefferson Co<span class="tag">Region</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Tue, Jan 26</td><td class="t">7:30 PM</td><td class="o">@ Laney<span class="tag">Region</span></td><td class="h">Away</td><td class="l">1339 Laney Walker Blvd, Augusta, GA 30901</td></tr>
+<tr class="away"><td class="d">Fri, Jan 29</td><td class="t">7:30 PM</td><td class="o">@ Glenn Hills<span class="tag">Region</span></td><td class="h">Away</td><td class="l">2840 Glenn Hills Dr, Augusta, GA 30906</td></tr>
+<tr class="home"><td class="d">Sat, Jan 30</td><td class="t">4:30 PM</td><td class="o">vs Laney<span class="tag">Region</span><span class="tag">Senior Night</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Fri, Feb 5</td><td class="t">7:30 PM</td><td class="o">@ Josey<span class="tag">Region</span></td><td class="h">Away</td><td class="l">1701 15th St, Augusta, GA 30901</td></tr>
+<tr class="away"><td class="d">Tue, Feb 9</td><td class="t">7:30 PM</td><td class="o">@ Jasper Co<span class="tag">Region</span></td><td class="h">Away</td><td class="l">14477 GA-11, Monticello, GA 31064</td></tr>
+<tr class="away"><td class="d">Fri, Feb 12</td><td class="t">7:30 PM</td><td class="o">@ Putnam<span class="tag">Region</span></td><td class="h">Away</td><td class="l">300 War Eagle Dr, Eatonton, GA 31024</td></tr>
+<tr class="away"><td class="d">Sat, Feb 13</td><td class="t">5:30 PM</td><td class="o">@ Jefferson Co<span class="tag">Region</span></td><td class="h">Away</td><td class="l">1157 Warrior Trail, Louisville, GA 30434</td></tr>
+<tr class="tbd"><td class="d">Tue, Feb 16</td><td class="t">TBD</td><td class="o">Region Tournament Semifinals</td><td class="h"></td><td class="l">Time and location TBD</td></tr>
+<tr class="tbd"><td class="d">Fri, Feb 19</td><td class="t">TBD</td><td class="o">Region Tournament Finals</td><td class="h"></td><td class="l">Time and location TBD</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+<section class="panel" id="panel-jv-boys" data-team="JV" hidden>
+  <div class="cta">
+    <a class="btn primary" href="social-circle-basketball-jv-boys.ics" rel="noopener">Add JV Boys to my calendar</a>
+    <p class="hint">On iPhone tap the button, then <b>Add All</b>. Android phones can't open calendar files directly: see the Android steps below. Every game gets a reminder 2 hours before tip-off.</p>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Date</th><th>Time</th><th>Opponent</th><th>Home / Away</th><th>Location</th></tr></thead>
+    <tbody>
+<tr class="home"><td class="d">Tue, Nov 17</td><td class="t">TBD</td><td class="o">vs Lanier Christian<span class="tag">Time TBD</span></td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Fri, Dec 4</td><td class="t">4:30 PM</td><td class="o">vs Walnut Grove</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="home"><td class="d">Sat, Dec 5</td><td class="t">10:30 AM</td><td class="o">vs Morgan County</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Tue, Dec 8</td><td class="t">4:30 PM</td><td class="o">@ Hebron Christian</td><td class="h">Away</td><td class="l">775 Dacula Rd, Dacula, GA 30019</td></tr>
+<tr class="away"><td class="d">Wed, Dec 9</td><td class="t">5:00 PM</td><td class="o">@ Eastside</td><td class="h">Away</td><td class="l">140 GA-142, Covington, GA 30014</td></tr>
+<tr class="away"><td class="d">Sat, Dec 12</td><td class="t">3:00 PM</td><td class="o">@ Loganville</td><td class="h">Away</td><td class="l">100 Trident Trail, Loganville, GA 30052</td></tr>
+<tr class="away"><td class="d">Tue, Dec 15</td><td class="t">4:30 PM</td><td class="o">@ Monroe Area</td><td class="h">Away</td><td class="l">300 Double Springs Church Rd SW, Monroe, GA 30656</td></tr>
+<tr class="home"><td class="d">Wed, Jan 6</td><td class="t">5:00 PM</td><td class="o">vs Eastside</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="away"><td class="d">Sat, Jan 9</td><td class="t">1:30 PM</td><td class="o">@ Lanier Christian</td><td class="h">Away</td><td class="l">5285 Strickland Rd, Flowery Branch, GA</td></tr>
+<tr class="away"><td class="d">Thu, Jan 14</td><td class="t">7:15 PM</td><td class="o">@ Rockdale</td><td class="h">Away</td><td class="l">1174 Bulldog Cir NE, Conyers, GA 30012</td></tr>
+<tr class="home"><td class="d">Fri, Jan 15</td><td class="t">4:30 PM</td><td class="o">vs Jasper Co</td><td class="h">Home</td><td class="l">154 Alcova Dr, Social Circle, GA 30025</td></tr>
+<tr class="tbd"><td class="d">Tue, Feb 16</td><td class="t">TBD</td><td class="o">Region Tournament Semifinals</td><td class="h"></td><td class="l">Time and location TBD</td></tr>
+<tr class="tbd"><td class="d">Fri, Feb 19</td><td class="t">TBD</td><td class="o">Region Tournament Finals</td><td class="h"></td><td class="l">Time and location TBD</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+<p class="legend"><span class="sw"></span> Shaded rows are home games. <b>Region</b> marks region games (the * on the printed schedule). Times are Eastern. Schedule as updated 10/26/26 - times can change, so check with the coach before a long drive.</p>
+<div class="howto">
+  <div><h3>iPhone</h3><ol><li>Tap the red button above.</li><li>Safari shows the games. Tap <b>Add All</b>.</li><li>Pick which calendar to put them on. Done.</li></ol></div>
+  <div><h3>Android / Google Calendar</h3><ol><li>Android can't open .ics files on the phone, so use a computer (or Chrome in desktop mode).</li><li>Download the file from the red button, then go to calendar.google.com &rarr; gear &rarr; Settings &rarr; Import &amp; export &rarr; Import.</li><li>Pick the file and the games sync to your phone's Google Calendar app.</li></ol></div>
+  <div><h3>Outlook or other</h3><ol><li>Download the .ics file.</li><li>In Outlook: File &rarr; Open &amp; Export &rarr; Import/Export &rarr; Import an iCalendar file.</li></ol><p>&nbsp;</p><a class="btn secondary" href="https://drive.google.com/drive/folders/1RO3mnXZJ7BHkTCaMes7qfeMojQwfxTAe" rel="noopener">All calendar files (Google Drive)</a></div>
+</div>
+<footer>Questions about the schedule go to the coaching staff. This page is maintained by a team parent; it is not an official school site.</footer>
+</div>
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var slugs = ["varsity-girls", "varsity-boys", "jv-boys"];
+  function show() {
+    var h = (location.hash || '').replace('#', '');
+    if (slugs.indexOf(h) < 0) {
+      try { h = localStorage.getItem('sc-bball-team') || ''; } catch (e) { h = ''; }
+      if (slugs.indexOf(h) < 0) h = slugs[0];
+    }
+    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.getAttribute('href') === '#' + h ? 'true' : 'false'); });
+    panels.forEach(function (p) { p.hidden = p.id !== 'panel-' + h; });
+    try { localStorage.setItem('sc-bball-team', h); } catch (e) {}
+  }
+  window.addEventListener('hashchange', show);
+  show();
+})();
+</script>
+
+</body>
+</html>
